@@ -14,7 +14,10 @@ build:
 		-t ml_service:latest \
 		${CURRENT_DIR}
 
-train:
+clear:
+	docker rm -f ml_app || true
+
+train: clear
 	docker run \
 	    -it --rm \
 		-v "${CURRENT_DIR}/src:/srv/src" \
@@ -29,5 +32,13 @@ run-flask:
 		-v "${CURRENT_DIR}/src:/srv/src" \
 		-v "${CURRENT_DIR}/data:/srv/data" \
 		-p 5001:5000 \
+		--name ml_app \
 		ml_service:latest \
 		"python3.8" src/app.py
+
+test-api:
+	docker exec \
+	    -it \
+		ml_app \
+		"python3.8" \
+		-c "import requests; print(requests.get('http://0.0.0.0:5000/api/feature_extractor?doc_id=1').json())"

@@ -25,3 +25,9 @@ make train
 make run-flask
 ```
 
+Проверка, что работает API
+
+```shell
+make test-flask
+```
+
