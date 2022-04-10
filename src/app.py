@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from flask import Flask, render_template, request, jsonify
 
-from helpers import logger, load
+from helpers import logger, load_transformer, load_dataset
 
 # если сначала работало, а потом поломалось - можно удалить контейнеры
 # sudo docker rm $(sudo docker ps -a -q)
@@ -12,18 +12,15 @@ from helpers import logger, load
 
 app = Flask(__name__)
 bind_port = 5000
-
-root_data_dir = '/srv/data'
-input_file = os.path.join(root_data_dir, 'ocr_dataset.zip')
-ocr_dataset_df = pd.read_csv(input_file, compression='zip')
-transformer_file = os.path.join(root_data_dir, 'transformer.pkl')
-transformer = load(transformer_file)
+# загружаем данные приложения
+ocr_dataset_df = load_dataset()
+transformer = load_transformer()
 
 
 @app.route('/')
 def hello():
     """Главная страничка приложения
-    
+
     Можно открыть в браузере
     """
     return render_template('index.html')
@@ -56,4 +53,5 @@ def get_features():
 
 
 if __name__ == '__main__':
+    logger.info('Flask app started')
     app.run(host="0.0.0.0", port=int(bind_port), debug=True)
