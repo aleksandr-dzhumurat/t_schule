@@ -46,12 +46,12 @@ brew install openssl xz gdbm
 
 ```shell
 pyenv install 3.8.10 && \
-pyenv virtualenv 3.8.10 hse-env
+pyenv virtualenv 3.8.10 tatra-env
 ```
 
 Далее активируем окружение
 ```shell
-source ~/.pyenv/versions/hse-env/bin/activate
+source ~/.pyenv/versions/tatra/bin/activate
 ```
 
 После активации устанавлеваем зависимости
