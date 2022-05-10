@@ -3,9 +3,6 @@ USER_NAME = $(shell whoami)
 USER_ID = $(shell id -u)
 USER_GROUP = $(shell id -g)
 
-pun_pipeline: loload_data_from_kafka prepare_wide_dataset prepare_ocr_dataset
-	echo "Pipline running..."
-
 build:
 	docker build \
 		--build-arg USER_ID="${USER_ID}" \
